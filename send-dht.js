@@ -6,8 +6,8 @@ const log4js = require('log4js')
 log4js.configure("./config/log4js.json")
 var logger = log4js.getLogger()
  
-const humiurl = 'http://lighthouse-laitinenp.c9users.io/api/sensors/humi1'
-const tempurl = 'http://lighthouse-laitinenp.c9users.io/api/sensors/temp1'
+const humiurl = 'https://lighthouse-laitinenp.c9users.io/api/sensors/humi1'
+const tempurl = 'https://lighthouse-laitinenp.c9users.io/api/sensors/temp1'
  
 const Client = require('node-rest-client').Client
  

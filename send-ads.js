@@ -1,12 +1,14 @@
 // Lighthouse Gateway sending data to the Karelia server
 
 const ads1x15 = require('node-ads1x15')
+const Gpio = require('onoff').Gpio
+const led = new Gpio(14, 'out')
 const fs = require('fs')
 const log4js = require('log4js')
 log4js.configure("./config/log4js.json")
 var logger = log4js.getLogger()
  
-const sinkurl = 'http://lighthouse-laitinenp.c9users.io/api/sensors/sink1'
+const sinkurl = 'https://lighthouse-laitinenp.c9users.io/api/sensors/sink1'
  
 const authoptions = JSON.parse(fs.readFileSync('credentials.json', 'utf8'))
 
@@ -35,7 +37,7 @@ var progGainAmp = '4096'
 // const K = -560 / 8963
 // laskettu excelilla linest-funktiolla mittauksista
 const K = -0.0629749747214557
-const C = 320
+const C = 101.74
 
 
 // convert the analog reading to mm
@@ -51,18 +53,32 @@ function readTare() {
 	return tare
 }
 
+function blinkLed() {
+        if (led.readSync() === 0) led.writeSync(1)
+        else led.writeSync(0)
+}
+function endBlink() {
+        clearInterval(blinkInterval)
+        led.writeSync(0)
+        led.unexport()
+}
+var blinkInterval = setInterval( blinkLed, 200 )
+
 function sendData (tare) {
                                                     // TODO tähän mittaus
 	if (!adc.busy) {
 		adc.readADCSingleEnded(channel, progGainAmp, samplesPerSecond, function(err,data){
 			if (err) {
+				setTimeout(endBlink, 30000)			
 				throw err;
 			}
 			data = convertToMm( data )
 			sinkargs.data.value = data - tare
         		logger.debug('measured sink value ' + sinkargs.data.value)
         		client.put( sinkurl, sinkargs, function(data, response) {
+				setTimeout(endBlink, 500)			
         		}).on('error', function(err) {
+				setTimeout(endBlink, 30000)			
                 		logger.debug('Error in HTTP PUT request to lighthouse server, data not saved to server.')
         		})
 		})

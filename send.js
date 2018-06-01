@@ -8,9 +8,9 @@ log4js.configure("./config/log4js.json")
 var logger = log4js.getLogger("lighthouse-appender")
 
  
-const sinkurl = 'http://lighthouse-laitinenp.c9users.io/api/sensors/sink1'
-const humiurl = 'http://lighthouse-laitinenp.c9users.io/api/sensors/humi1'
-const tempurl = 'http://lighthouse-laitinenp.c9users.io/api/sensors/temp1'
+const sinkurl = 'https://lighthouse-laitinenp.c9users.io/api/sensors/sink1'
+const humiurl = 'https://lighthouse-laitinenp.c9users.io/api/sensors/humi1'
+const tempurl = 'https://lighthouse-laitinenp.c9users.io/api/sensors/temp1'
  
 var Client = require('node-rest-client').Client
  
