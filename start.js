@@ -18,7 +18,7 @@ const logger = log4js.getLogger()
 // convert the analog reading to mm
 // const K = - 560 / 8963
 const K = -0.0629749747214557
-const C = 320
+const C = 101.74
 
 
 // convert the analog reading to mm
