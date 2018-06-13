@@ -1,3 +1,3 @@
-cd ~/lighthousegateway/
-/usr/bin/node send-adc.js
+cd ~/lighthouseclient/
+/usr/bin/node send-ads.js
 
